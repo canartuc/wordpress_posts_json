@@ -15,5 +15,10 @@ func main() {
 		log.Fatal("(ERR) No config no output. Please define output file's relative path including filename!")
 	}
 
-	Write2Json(outFile)
+	total, err := Write2Json(outFile)
+	if err != nil {
+		log.Fatal("(ERR) Couldn't write JSON file: ", err)
+	}
+
+	log.Printf("(√√√) Successfully created: %s, total records: %d", outFile, total)
 }

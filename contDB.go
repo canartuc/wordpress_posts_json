@@ -7,7 +7,7 @@ import (
 )
 
 // Write2Json gets filename, serialize struct into beautify JSON and writes to the file
-func Write2Json(filename string) {
+func Write2Json(filename string) (int, error) {
 	allPosts, err := GetAllPosts()
 	if err != nil {
 		log.Fatal("(ERR) Couldn't get all posts: ", err)
@@ -22,4 +22,6 @@ func Write2Json(filename string) {
 	if err != nil {
 		log.Fatalf("(ERR) Couldn't write beautify JSON to the file: %s : %x", filename, err)
 	}
+
+	return len(allPosts), err
 }
