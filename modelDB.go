@@ -54,7 +54,6 @@ func DBCon() *sql.DB {
 		DB.SetMaxIdleConns(25)
 		DB.SetConnMaxLifetime(5 * time.Minute)*/
 
-
 		// In Go, connection doesn't mean that it is connected successfully so you need to ping the database if the
 		// connection is really available with the given config
 		ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
