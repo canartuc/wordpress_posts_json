@@ -20,10 +20,12 @@ type MySQLCon struct {
 }
 
 type Post struct {
-	PostID     int    `json:"post_id"`
-	PostTitle  string `json:"post_title"`
-	PostUrl    string `json:"post_url"`
-	PostPoster string `json:"post_poster"`
+	PostID          int    `json:"post_id"`
+	PostTitle       string `json:"post_title"`
+	PostUrl         string `json:"post_url"`
+	PostPoster      string `json:"post_poster"`
+	PostDescription string `json:"post_description"`
+	PostModifiedGMT string `json:"post_modified_gmt"`
 }
 
 // readConfig reads configuration values from environment variables and sets
@@ -76,16 +78,9 @@ func GetAllPosts() ([]Post, error) {
 	db := DBCon()
 
 	// Execute the query which takes all posts from Wordpress database and order by New to Old
-<<<<<<< HEAD
-	results, err := db.Query("SELECT post.ID as post_id, " +
-		"post.post_title as post_title, post.guid as post_url, p.guid as post_poster " +
-		"FROM wp_posts AS post " +
-		"JOIN wp_postmeta AS postmeta ON postmeta.post_id = post.ID " +
-=======
 	results, err := db.Query("SELECT post.ID as post_id, post.post_title as post_title, post.guid as post_url, " +
 		"p.guid as post_poster, post.post_excerpt as post_description, post.post_modified_gmt " +
 		"FROM wp_posts AS post JOIN wp_postmeta AS postmeta ON postmeta.post_id = post.ID " +
->>>>>>> 715f985 (README file and small fix)
 		"JOIN wp_posts AS p ON p.ID = postmeta.meta_value " +
 		"WHERE post.post_type = 'post' AND post.post_status = 'publish' AND postmeta.meta_key = '_thumbnail_id' " +
 		"ORDER BY post.post_modified DESC;")
@@ -97,7 +92,8 @@ func GetAllPosts() ([]Post, error) {
 	for results.Next() {
 		var eachRes = new(Post)
 		// for each row of the data, scan into structure
-		err = results.Scan(&eachRes.PostID, &eachRes.PostTitle, &eachRes.PostUrl, &eachRes.PostPoster)
+		err = results.Scan(&eachRes.PostID, &eachRes.PostTitle, &eachRes.PostUrl, &eachRes.PostPoster,
+			&eachRes.PostDescription, &eachRes.PostModifiedGMT)
 		if err != nil {
 			log.Println("(ERR) Problem while reading data from database: ", err)
 		}
