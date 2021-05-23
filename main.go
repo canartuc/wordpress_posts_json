@@ -1,21 +1,19 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+	"flag"
 	"log"
 )
 
 func main() {
-	posts, err := GetAllPosts()
-	if err != nil {
-		log.Fatal("(ERR) Sorry, cannot get all the posts: ", err)
+	// This will read command line parameter "out" as output file and writes all data in it
+	var outFile string
+	flag.StringVar(&outFile, "out", "", "Enter relative path of output JSON file")
+	flag.Parse()
+
+	if outFile == "" {
+		log.Fatal("(ERR) No config no output. Please define output file's relative path including filename!")
 	}
 
-	postsJson, err := json.Marshal(posts)
-	if err != nil {
-		log.Fatal("(ERR) Sorry, cannot convert struct to JSON: ", err)
-	}
-
-	fmt.Println(string(postsJson))
+	Write2Json(outFile)
 }
