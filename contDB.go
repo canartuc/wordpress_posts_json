@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// Write2Json gets filename, serialize struct into beautify JSON and writes to the file
 func Write2Json(filename string) {
 	allPosts, err := GetAllPosts()
 	if err != nil {
