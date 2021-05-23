@@ -70,6 +70,7 @@ func DBCon() *sql.DB {
 
 }
 
+// GetAllPosts gets all posts from Wordpress MySQL and returns as result
 func GetAllPosts() ([]Post, error) {
 	var res []Post
 	db := DBCon()
